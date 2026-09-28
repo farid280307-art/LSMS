@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LSMS - Printable Service Document</title>
+  <style>
+    :root {
+      --ink: #1f2937;
+      --muted: #6b7280;
+      --line: #d1d5db;
+      --line-strong: #9ca3af;
+      --accent: #0f172a;
+      --paper: #ffffff;
+      --bg: #f3f4f6;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      color: var(--ink);
+      background: var(--bg);
+    }
+
+    .toolbar {
+      max-width: 210mm;
+      margin: 14px auto 8px;
+      padding: 0 8px;
+      display: flex;
+      justify-content: flex-end;
+      gap: 8px;
+    }
+
+    .btn {
+      border: 1px solid #0f172a;
+      background: #0f172a;
+      color: #fff;
+      padding: 8px 14px;
+      font-size: 13px;
+      font-weight: 700;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    .btn-secondary {
+      background: #fff;
+      color: #0f172a;
+    }
+
+    .sheet {
+      width: 210mm;
+      min-height: 297mm;
+      margin: 0 auto 18px;
+      padding: 11mm;
+      background: var(--paper);
+      border: 1px solid var(--line);
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .top {
+      display: grid;
+      grid-template-columns: 1fr 260px;
+      gap: 14px;
+      border-bottom: 1px solid var(--line);
+      padding-bottom: 8px;
+    }
+
+    .company {
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+    }
+
+    .logo-box {
+      min-width: 84px;
+      border: 1px solid var(--line-strong);
+      border-radius: 4px;
+      padding: 8px 6px;
+      font-size: 11px;
+      font-weight: 700;
+      text-align: center;
+      line-height: 1.2;
+      color: var(--accent);
+    }
+
+    .company-detail h1 {
+      margin: 0 0 4px;
+      font-size: 20px;
+      line-height: 1.2;
+      letter-spacing: 0.2px;
+    }
+
+    .company-detail p {
+      margin: 2px 0;
+      font-size: 12px;
+      line-height: 1.35;
+      color: var(--muted);
+    }
+
+    .doc-meta {
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      padding: 8px 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .doc-type {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.8px;
+      color: #111827;
+      display: inline-block;
+      border: 1px solid var(--line-strong);
+      padding: 4px 6px;
+      border-radius: 4px;
+      width: fit-content;
+    }
+
+    .service-id {
+      font-size: 30px;
+      font-weight: 900;
+      letter-spacing: 0.8px;
+      margin: 0;
+      color: #0b1220;
+      line-height: 1;
+    }
+
+    .meta-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+      font-size: 12px;
+    }
+
+    .meta-row b {
+      color: #111827;
+    }
+
+    .barcode-wrap {
+      border: 1px dashed var(--line-strong);
+      border-radius: 4px;
+      padding: 4px;
+      min-height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    #barcode {
+      width: 100%;
+      max-width: 225px;
+      height: 42px;
+    }
+
+    .barcode-text {
+      font-size: 11px;
+      color: var(--muted);
+      letter-spacing: 0.4px;
+    }
+
+    .section {
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      padding: 8px 10px;
+    }
+
+    .section-title {
+      margin: 0 0 6px;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      color: #111827;
+    }
+
+    .customer-grid {
+      display: grid;
+      grid-template-columns: 148px 1fr;
+      row-gap: 5px;
+      column-gap: 8px;
+      font-size: 13px;
+    }
+
+    .label {
+      color: var(--muted);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 12px;
+    }
+
+    thead th {
+      border-top: 1px solid var(--line-strong);
+      border-bottom: 1px solid var(--line-strong);
+      background: #f9fafb;
+      text-align: left;
+      padding: 8px 6px;
+      font-size: 11.5px;
+      letter-spacing: 0.2px;
+    }
+
+    tbody td {
+      border-bottom: 1px solid var(--line);
+      padding: 8px 6px;
+      vertical-align: top;
+    }
+
+    tbody tr:last-child td {
+      border-bottom: 1px solid var(--line-strong);
+    }
+
+    .text-center {
+      text-align: center;
+    }
+
+    .notes-sign {
+      margin-top: 2px;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 10px;
+      flex: 1;
+    }
+
+    .notes-box {
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      padding: 8px 10px;
+      min-height: 78px;
+    }
+
+    .notes-box p {
+      margin: 4px 0;
+      font-size: 12.5px;
+      color: #374151;
+      line-height: 1.35;
+    }
+
+    .warn {
+      margin-top: 8px;
+      font-size: 12px;
+      font-weight: 700;
+      color: #111827;
+    }
+
+    .sign-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(180px, 1fr));
+      gap: 26px;
+      padding-top: 8px;
+    }
+
+    .sign-item {
+      font-size: 12px;
+    }
+
+    .sign-line {
+      margin-top: 40px;
+      border-bottom: 1px solid #4b5563;
+      width: 100%;
+      height: 1px;
+    }
+
+    .sign-label {
+      margin-top: 6px;
+      font-weight: 700;
+    }
+
+    .footer {
+      margin-top: auto;
+      border-top: 1px solid var(--line);
+      padding-top: 8px;
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+      color: #4b5563;
+      font-size: 11px;
+    }
+
+    @media (max-width: 900px) {
+      .toolbar {
+        padding: 0 10px;
+      }
+
+      .sheet {
+        width: 100%;
+        min-height: auto;
+        border-left: none;
+        border-right: none;
+        border-radius: 0;
+        margin-bottom: 0;
+        padding: 16px;
+      }
+
+      .top {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media print {
+      @page {
+        size: A4;
+        margin: 8mm;
+      }
+
+      body {
+        background: #fff;
+      }
+
+      .toolbar {
+        display: none !important;
+      }
+
+      .sheet {
+        width: auto;
+        min-height: auto;
+        margin: 0;
+        border: none;
+        padding: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="toolbar">
+    <button class="btn btn-secondary" id="toggleType">Ubah Tipe Dokumen</button>
+    <button class="btn" id="printBtn">Print</button>
+  </div>
+
+  <main class="sheet">
+    <section class="top">
+      <div class="company">
+        <div class="logo-box">AXIOO CARE<br />PLATINUM</div>
+        <div class="company-detail">
+          <h1>Service Center Bandung</h1>
+          <p>Ruko Segitiga Mas Kosambi Blok E10-11 Jl. A. Yani 221-223 Kel. Merdeka, Kec. Sumur Bandung, Kota Bandung</p>
+          <p><b>WA:</b> 0812-3456-7890</p>
+        </div>
+      </div>
+
+      <aside class="doc-meta">
+        <span class="doc-type" id="docTypeLabel">SERVICE IN</span>
+        <h2 class="service-id" id="serviceId">SRV-BDG-20260331-0012</h2>
+
+        <div class="barcode-wrap">
+          <svg id="barcode"></svg>
+          <span class="barcode-text" id="barcodeText">SRV-BDG-20260331-0012</span>
+        </div>
+
+        <div class="meta-row">
+          <span><b>Tanggal:</b></span>
+          <span id="dateLabel">31-03-2026</span>
+        </div>
+      </aside>
+    </section>
+
+    <section class="section">
+      <h3 class="section-title">DATA CUSTOMER</h3>
+      <div class="customer-grid">
+        <span class="label">Nama Customer</span>
+        <span id="customerName">: Budi Santoso</span>
+        <span class="label">Nomor HP</span>
+        <span id="customerPhone">: 0812-9876-1234</span>
+      </div>
+    </section>
+
+    <section class="section">
+      <h3 class="section-title">DATA SERVICE</h3>
+      <table>
+        <thead>
+          <tr>
+            <th style="width: 40px;">No</th>
+            <th style="width: 100px;">Item Code</th>
+            <th>Item Description</th>
+            <th style="width: 130px;">Serial Number</th>
+            <th style="width: 130px;">Service Number</th>
+            <th style="width: 90px;">Warranty</th>
+          </tr>
+        </thead>
+        <tbody id="serviceBody"></tbody>
+      </table>
+    </section>
+
+    <section class="notes-sign">
+      <div class="notes-box">
+        <h3 class="section-title">NOTES</h3>
+        <p id="notesText">Unit diterima dalam kondisi normal fisik, terdapat kendala tidak bisa booting. Charger dan tas tidak termasuk.</p>
+        <p class="warn">NOTE: Mohon dicek kembali unit yang sudah diservice</p>
+      </div>
+
+      <div class="sign-grid">
+        <div class="sign-item">
+          <div>Customer</div>
+          <div class="sign-line"></div>
+          <div class="sign-label">( __________________ )</div>
+        </div>
+        <div class="sign-item">
+          <div>CS</div>
+          <div class="sign-line"></div>
+          <div class="sign-label">( __________________ )</div>
+        </div>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <span>Printed By: <b id="printedBy">admin.lsms</b></span>
+      <span>Page 1 of 1</span>
+    </footer>
+  </main>
+
+  <script>
+    const dummyData = {
+      type: "masuk",
+      service_id: "SRV-BDG-20260331-0012",
+      service_in_date: "2026-03-31",
+      service_finish_date: "2026-04-03",
+      customer_name: "Budi Santoso",
+      customer_phone: "0812-9876-1234",
+      printed_by: "admin.lsms",
+      notes: "Unit diterima dalam kondisi normal fisik, terdapat kendala tidak bisa booting. Charger dan tas tidak termasuk.",
+      items: [
+        {
+          no: 1,
+          item_code: "LP-AX-14X",
+          laptop_name: "Axioo MyBook Hype 5",
+          problem: "Tidak bisa masuk Windows, muncul automatic repair loop.",
+          serial_number: "AXH5-24BDG-00981",
+          service_number: "SC-2026-0012",
+          warranty: "On Warranty"
+        }
+      ]
+    };
+
+    function formatDateID(dateStr) {
+      const dt = new Date(dateStr);
+      if (Number.isNaN(dt.getTime())) return "-";
+      return dt.toLocaleDateString("id-ID", {
+        day: "2-digit",
+        month: "2-digit",
+        year: "numeric"
+      });
+    }
+
+    function fallbackBarcode(targetId, text) {
+      const svg = document.getElementById(targetId);
+      svg.innerHTML = "";
+      svg.setAttribute("viewBox", "0 0 220 42");
+
+      let x = 4;
+      for (let i = 0; i < text.length; i += 1) {
+        const code = text.charCodeAt(i);
+        const w = (code % 3) + 1;
+        const h = 26 + (code % 12);
+        const gap = (code % 2) + 1;
+
+        const rect = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+        rect.setAttribute("x", x);
+        rect.setAttribute("y", 4);
+        rect.setAttribute("width", w);
+        rect.setAttribute("height", h);
+        rect.setAttribute("fill", "#111827");
+        svg.appendChild(rect);
+        x += w + gap;
+
+        if (x > 215) break;
+      }
+    }
+
+    function renderBarcode(text) {
+      if (window.JsBarcode) {
+        JsBarcode("#barcode", text, {
+          format: "CODE128",
+          width: 1.4,
+          height: 38,
+          margin: 0,
+          displayValue: false
+        });
+      } else {
+        fallbackBarcode("barcode", text);
+      }
+    }
+
+    function getDocumentType() {
+      const urlType = new URLSearchParams(window.location.search).get("type");
+      if (urlType === "masuk" || urlType === "keluar") return urlType;
+      return dummyData.type;
+    }
+
+    function render() {
+      const type = getDocumentType();
+      const isMasuk = type === "masuk";
+      const docLabel = isMasuk ? "SERVICE IN" : "SERVICE FINISH";
+      const activeDate = isMasuk ? dummyData.service_in_date : dummyData.service_finish_date;
+
+      document.getElementById("docTypeLabel").textContent = docLabel;
+      document.getElementById("serviceId").textContent = dummyData.service_id;
+      document.getElementById("dateLabel").textContent = formatDateID(activeDate);
+      document.getElementById("barcodeText").textContent = dummyData.service_id;
+      document.getElementById("customerName").textContent = `: ${dummyData.customer_name}`;
+      document.getElementById("customerPhone").textContent = `: ${dummyData.customer_phone}`;
+      document.getElementById("printedBy").textContent = dummyData.printed_by;
+      document.getElementById("notesText").textContent = dummyData.notes;
+
+      const rowsHtml = dummyData.items
+        .map((item) => {
+          const desc = `${item.laptop_name}<br><span style="color:#6b7280">Problem: ${item.problem}</span>`;
+          return `
+            <tr>
+              <td class="text-center">${item.no}</td>
+              <td>${item.item_code}</td>
+              <td>${desc}</td>
+              <td>${item.serial_number}</td>
+              <td>${item.service_number}</td>
+              <td>${item.warranty}</td>
+            </tr>
+          `;
+        })
+        .join("");
+
+      document.getElementById("serviceBody").innerHTML = rowsHtml;
+      renderBarcode(dummyData.service_id);
+    }
+
+    document.getElementById("printBtn").addEventListener("click", () => window.print());
+
+    document.getElementById("toggleType").addEventListener("click", () => {
+      const current = getDocumentType();
+      const nextType = current === "masuk" ? "keluar" : "masuk";
+      const nextUrl = `${window.location.pathname}?type=${nextType}`;
+      window.location.href = nextUrl;
+    });
+
+    render();
+  </script>
+</body>
+</html>
